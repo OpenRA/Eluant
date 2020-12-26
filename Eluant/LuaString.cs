@@ -25,6 +25,7 @@
 // THE SOFTWARE.
 
 using System;
+using System.Text;
 
 namespace Eluant
 {
@@ -77,7 +78,7 @@ namespace Eluant
 
         internal override void Push(LuaRuntime runtime)
         {
-            LuaApi.lua_pushlstring(runtime.LuaState, Value, new UIntPtr((ulong)Value.Length));
+            LuaApi.lua_pushlstring(runtime.LuaState, Value, new UIntPtr((ulong)Encoding.UTF8.GetByteCount(Value)));
         }
 
         public static implicit operator LuaString(string v)
