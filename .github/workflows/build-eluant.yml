@@ -1,0 +1,32 @@
+name: Build Eluant
+
+on:
+    workflow_call:
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+jobs:
+    compile:
+        name: Compile Eluant
+        runs-on: ubuntu-22.04
+        steps:
+            - name: Clone Repository
+              uses: actions/checkout@v3
+
+            # Since Eluant.csproj targets netstandard2.0 we don't need .NET 6, but let's not risk having outdated support for older versions.
+            - name: Install .NET 6
+              uses: actions/setup-dotnet@v3
+              with:
+                dotnet-version: '6.0.x'
+
+            - name: Compile
+              run: |
+                dotnet build Eluant.sln
+
+            - name: Upload Artifacts
+              uses: actions/upload-artifact@v3
+              with:
+                name: Eluant
+                path: bin
