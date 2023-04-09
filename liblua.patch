@@ -1,0 +1,23 @@
+--- lua-5.1.5-orig/src/Makefile	2012-02-14 09:41:22
++++ lua-5.1.5/src/Makefile	2022-12-17 12:04:07
+@@ -22,7 +22,7 @@
+ 
+ PLATS= aix ansi bsd freebsd generic linux macosx mingw posix solaris
+ 
+-LUA_A=	liblua.a
++LUA_A=	liblua.5.1.dylib
+ CORE_O=	lapi.o lcode.o ldebug.o ldo.o ldump.o lfunc.o lgc.o llex.o lmem.o \
+ 	lobject.o lopcodes.o lparser.o lstate.o lstring.o ltable.o ltm.o  \
+ 	lundump.o lvm.o lzio.o
+@@ -48,8 +48,9 @@
+ a:	$(ALL_A)
+ 
+ $(LUA_A): $(CORE_O) $(LIB_O)
+-	$(AR) $@ $(CORE_O) $(LIB_O)	# DLL needs all object files
+-	$(RANLIB) $@
++	$(CC) -dynamiclib -install_name /usr/local/lib/liblua.5.1.dylib \
++		-compatibility_version 5.1 -current_version 5.1.5 \
++		-o liblua.5.1.5.dylib $^
+ 
+ $(LUA_T): $(LUA_O) $(LUA_A)
+ 	$(CC) -o $@ $(MYLDFLAGS) $(LUA_O) $(LUA_A) $(LIBS)
