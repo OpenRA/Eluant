@@ -1,0 +1,68 @@
+name: Package NuGet
+
+on:
+    workflow_dispatch:
+
+jobs:
+    compile-eluant:
+        name: Build Eluant
+        uses: ./.github/workflows/build-eluant.yml
+
+    compile-natives:
+        name: Build native dependencies
+        uses: ./.github/workflows/build-natives.yml
+
+    packageNuget:
+        name: Package NuGet
+        runs-on: ubuntu-22.04
+        needs: [compile-eluant, compile-natives]
+        steps:
+            - name: Clone repository
+              uses: actions/checkout@v3
+
+            - name: Download artifacts - Eluant.dll
+              uses: actions/download-artifact@v3
+              with:
+                name: Eluant
+                path: ./bin
+
+            - name: Download artifacts - native - Windows
+              uses: actions/download-artifact@v3
+              with:
+                name: Natives-Windows
+                path: ./native/win
+
+            - name: Download artifacts - native - MacOS
+              uses: actions/download-artifact@v3
+              with:
+                name: Natives-MacOS
+                path: ./native/osx
+
+            - name: Download artifacts - native - Linux (x64)
+              uses: actions/download-artifact@v3
+              with:
+                name: Natives-Linux(x64)
+                path: ./native/linux
+
+            - name: Download artifacts - native - Linux (arm64)
+              uses: actions/download-artifact@v3
+              with:
+                name: Natives-Linux(arm64)
+                path: ./native/linux
+
+            - name: Setup NuGet.exe
+              uses: NuGet/setup-nuget@v1
+
+            - name: Package NuGet
+              run: |
+                nuget pack OpenRA-Eluant.nuspec -OutputDirectory ./nuget
+
+            - name: Upload NuGet package to Artifacts
+              uses: actions/upload-artifact@v3
+              with:
+                name: NuGet Package
+                path: nuget
+
+            - name: Publish package to NuGet
+              run: |
+                nuget push ./nuget/*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey ${{ secrets.NUGET_KEY }}
