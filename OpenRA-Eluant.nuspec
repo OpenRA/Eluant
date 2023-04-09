@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>OpenRA-Eluant</id>
-    <version>1.0.17</version>
+    <version>1.0.21-a5</version>
     <authors>OpenRA</authors>
     <owners>OpenRA</owners>
     <projectUrl>https://github.com/OpenRA/Eluant</projectUrl>
