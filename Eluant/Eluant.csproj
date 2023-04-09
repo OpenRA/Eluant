@@ -6,11 +6,12 @@
     <LangVersion>5</LangVersion>
     <DebugSymbols>true</DebugSymbols>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <Configurations>Release;Debug;</Configurations>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+    <OutputPath>../bin</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <!-- Work around an issue where Rider does not detect files in the project root using the default glob -->

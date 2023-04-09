@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)\..\native\win-x86\lua51.dll" Condition="'$(TargetPlatform)' == 'win-x86'">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>lua51.dll</Link>
+      <Visible>false</Visible>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)\..\native\win-x64\lua51.dll" Condition="'$(TargetPlatform)' == 'win-x64'">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>lua51.dll</Link>
+      <Visible>false</Visible>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)\..\native\linux-x64\lua51.so" Condition="'$(TargetPlatform)' == 'linux-x64'">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>lua51.so</Link>
+      <Visible>false</Visible>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)\..\native\linux-arm64\lua51.so" Condition="'$(TargetPlatform)' == 'linux-arm64'">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>lua51.so</Link>
+      <Visible>false</Visible>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)\..\native\osx-x64\lua51.dylib" Condition="'$(TargetPlatform)' == 'osx-x64'">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>lua51.dylib</Link>
+      <Visible>false</Visible>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)\..\native\osx-arm64\lua51.dylib" Condition="'$(TargetPlatform)' == 'osx-arm64'">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>lua51.dylib</Link>
+      <Visible>false</Visible>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)\..\lib\netstandard2.0\Eluant.dll.config" Condition="'$(TargetPlatform)' != 'win-x64' And '$(TargetPlatform)' != 'win-x86'">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Eluant.dll.config</Link>
+      <Visible>false</Visible>
+    </Content>
+  </ItemGroup>
+</Project>

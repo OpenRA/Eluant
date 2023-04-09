@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>OpenRA-Eluant</id>
+    <version>1.0.17</version>
+    <authors>OpenRA</authors>
+    <owners>OpenRA</owners>
+    <projectUrl>https://github.com/OpenRA/Eluant</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Eluant modified for OpenRA</description>
+    <copyright>Copyright (c) The OpenRA Developers and Contributors</copyright>
+    <license type="expression">MIT</license>
+    <tags>OpenRA Lua scripting</tags>
+    <dependencies>
+      <group targetFramework=".NETStandard2.0" />
+    </dependencies>
+    <releaseNotes>
+    </releaseNotes>
+  </metadata>
+  <files>
+    <file src="OpenRA-Eluant.targets" target="build" />
+    <file src="bin/netstandard2.0/Eluant.*" target="lib/netstandard2.0" />
+    <file src="native/win/x86/lua51.dll" target="native/win-x86" />
+    <file src="native/win/x64/lua51.dll" target="native/win-x64" />
+    <file src="native/linux/x64/lua51.so" target="native/linux-x64" />
+    <file src="native/linux/arm64/lua51.so" target="native/linux-arm64" />
+    <file src="native/osx/x86_64/lua51.dylib" target="native/osx-x64" />
+    <file src="native/osx/arm64/lua51.dylib" target="native/osx-arm64" />
+  </files>
+</package>
