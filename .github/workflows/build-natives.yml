@@ -4,6 +4,7 @@ env:
     LUA_VERSION: 5.1.5 # Make sure this matches the version mentioned in the description in the .nuspec file.
 
 on:
+    pull_request:
     workflow_call:
     workflow_dispatch:
 
