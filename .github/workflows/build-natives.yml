@@ -14,7 +14,7 @@ permissions:
 jobs:
     windows:
         name: Windows (x86 + x64)
-        runs-on: ubuntu-22.04
+        runs-on: ubuntu-20.04
         steps:
             - name: Setup Dependencies
               run: |
