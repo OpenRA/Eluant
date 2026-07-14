@@ -27,7 +27,7 @@ jobs:
                 dotnet build Eluant.sln
 
             - name: Upload Artifacts
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v7
               with:
                 name: Eluant
                 path: ./bin

@@ -83,7 +83,7 @@ jobs:
                 nuget pack OpenRA-Eluant.nuspec -OutputDirectory ./nuget -version ${{ github.event.inputs.nugetPackageVersion }}
 
             - name: Upload NuGet package to Artifacts
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v7
               with:
                 name: NuGet Package ${{ github.event.inputs.nugetPackageVersion }}
                 path: ./nuget
