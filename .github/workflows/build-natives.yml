@@ -34,7 +34,7 @@ jobs:
                 cp lua51.dll ../../artifacts/x64/
 
             - name: Upload Artifacts
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v7
               with:
                 name: Natives-Windows
                 path: ./artifacts
@@ -64,7 +64,7 @@ jobs:
                 cp liblua.${LUA_VERSION}.dylib ../../artifacts/arm64/lua51.dylib
 
             - name: Upload Artifacts
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v7
               with:
                 name: Natives-MacOS
                 path: ./artifacts
@@ -94,7 +94,7 @@ jobs:
                 cp liblua.so ../../artifacts/x64/lua51.so
 
             - name: Upload Artifacts
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v7
               with:
                 name: Natives-Linux(x64)
                 path: ./artifacts
@@ -132,7 +132,7 @@ jobs:
                   cp liblua.so /artifacts/arm64/lua51.so
 
             - name: Upload Artifacts
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v7
               with:
                 name: Natives-Linux(arm64)
                 path: ./artifacts
