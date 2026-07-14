@@ -18,7 +18,7 @@ jobs:
 
             # Since Eluant.csproj targets netstandard2.0 we don't need .NET 6, but let's not risk having outdated support for older versions.
             - name: Install .NET 6
-              uses: actions/setup-dotnet@v3
+              uses: actions/setup-dotnet@v5
               with:
                 dotnet-version: '6.0.x'
 
