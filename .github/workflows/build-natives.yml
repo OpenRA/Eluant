@@ -14,30 +14,38 @@ permissions:
 jobs:
     windows:
         name: Windows (x86 + x64)
-        runs-on: ubuntu-20.04
+        runs-on: windows-2022
         steps:
             - name: Setup Dependencies
+              shell: pwsh
               run: |
-                mkdir -p artifacts/x86
-                mkdir artifacts/x64
-                sudo apt-get install mingw-w64
+                New-Item -ItemType Directory -Force artifacts/x86 | Out-Null
+                New-Item -ItemType Directory -Force artifacts/x64 | Out-Null
 
-            - name: Compile natives
+            - name: Download Lua source
+              shell: pwsh
               run: |
-                curl -s -L -O https://www.lua.org/ftp/lua-${LUA_VERSION}.tar.gz
-                tar xf lua-${LUA_VERSION}.tar.gz
-                cd lua-${LUA_VERSION}/src/
-                make mingw CC=i686-w64-mingw32-gcc
-                cp lua51.dll ../../artifacts/x86/
-                make clean
-                make mingw CC=x86_64-w64-mingw32-gcc
-                cp lua51.dll ../../artifacts/x64/
+                Invoke-WebRequest "https://www.lua.org/ftp/lua-$env:LUA_VERSION.tar.gz" -OutFile "lua-$env:LUA_VERSION.tar.gz"
+                tar -xf "lua-$env:LUA_VERSION.tar.gz"
 
-            - name: Upload Artifacts
-              uses: actions/upload-artifact@v3
-              with:
-                name: Natives-Windows
-                path: ./artifacts
+            - name: Build x86 (MSVC)
+              shell: cmd
+              run: |
+                cd lua-%LUA_VERSION%\src
+                call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86
+                cl /MD /O2 /c /DLUA_BUILD_AS_DLL *.c
+                link /DLL /OUT:lua51.dll *.obj
+                copy /Y lua51.dll ..\..\artifacts\x86\lua51.dll
+
+            - name: Build x64 (MSVC)
+              shell: cmd
+              run: |
+                cd lua-%LUA_VERSION%\src
+                del /Q *.obj
+                call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" amd64
+                cl /MD /O2 /c /DLUA_BUILD_AS_DLL *.c
+                link /DLL /OUT:lua51.dll *.obj
+                copy /Y lua51.dll ..\..\*
 
     macos:
         name: macOS (x64 + arm64)
