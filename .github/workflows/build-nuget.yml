@@ -46,31 +46,31 @@ jobs:
                 fi
 
             - name: Download artifacts - Eluant.dll
-              uses: actions/download-artifact@v3
+              uses: actions/download-artifact@v8
               with:
                 name: Eluant
                 path: ./bin
 
             - name: Download artifacts - native - Windows
-              uses: actions/download-artifact@v3
+              uses: actions/download-artifact@v8
               with:
                 name: Natives-Windows
                 path: ./native/win
 
             - name: Download artifacts - native - MacOS
-              uses: actions/download-artifact@v3
+              uses: actions/download-artifact@v8
               with:
                 name: Natives-MacOS
                 path: ./native/osx
 
             - name: Download artifacts - native - Linux (x64)
-              uses: actions/download-artifact@v3
+              uses: actions/download-artifact@v8
               with:
                 name: Natives-Linux(x64)
                 path: ./native/linux
 
             - name: Download artifacts - native - Linux (arm64)
-              uses: actions/download-artifact@v3
+              uses: actions/download-artifact@v8
               with:
                 name: Natives-Linux(arm64)
                 path: ./native/linux
