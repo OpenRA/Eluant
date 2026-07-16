@@ -100,37 +100,22 @@ jobs:
                 name: Natives-Linux(x64)
                 path: ./artifacts
 
-    # Note: Using the run-on-arch action is *very* slow, but is the only way to simulate arm64 architecture.
     linux-arm64:
         name: Linux (arm64)
-        runs-on: ubuntu-22.04
+        runs-on: ubuntu-22.04-arm
         steps:
             - name: Clone Repository
               uses: actions/checkout@v7
 
             - name: Setup dependencies and compile natives
-              uses: uraimo/run-on-arch-action@v3
-              with:
-                arch: aarch64
-                distro: ubuntu22.04
-                shell: /bin/sh
-                githubToken: ${{ github.token }}
-                setup: |
-                  mkdir -p "${PWD}/artifacts/arm64"
-                dockerRunArgs: |
-                  --volume "${PWD}/artifacts:/artifacts"
-                env: |
-                  LUA_VERSION: ${{ env.LUA_VERSION }}
-                install: |
-                  apt-get update -q -y
-                  apt-get install -y build-essential curl
-                run: |
-                  curl -s -L -O https://www.lua.org/ftp/lua-${LUA_VERSION}.tar.gz
-                  tar xf lua-${LUA_VERSION}.tar.gz
-                  cd lua-${LUA_VERSION}/src/
-                  patch < ../../liblua.linux.patch
-                  make liblua.so
-                  cp liblua.so /artifacts/arm64/lua51.so
+              run: |
+                mkdir -p artifacts/arm64
+                curl -s -L -O https://www.lua.org/ftp/lua-${LUA_VERSION}.tar.gz
+                tar xf lua-${LUA_VERSION}.tar.gz
+                cd lua-${LUA_VERSION}/src/
+                patch < ../../liblua.linux.patch
+                make liblua.so
+                cp liblua.so ../../artifacts/arm64/lua51.so
 
             - name: Upload Artifacts
               uses: actions/upload-artifact@v7
