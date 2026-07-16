@@ -41,7 +41,7 @@ jobs:
 
     macos:
         name: macOS (x64 + arm64)
-        runs-on: macos-11
+        runs-on: macos-14
         steps:
             - name: Clone Repository
               uses: actions/checkout@v7
