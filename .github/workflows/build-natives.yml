@@ -69,12 +69,12 @@ jobs:
                 name: Natives-MacOS
                 path: ./artifacts
 
-    # Note: Running inside a CentOS container because we want to compile using a version of glibc
+    # Note: Running inside a RockyLinux container because we want to compile using a version of glibc
     # that is as old as reasonably possible to ensure backwards compatibility of the compiled binaries.
     linux-x64:
         name: Linux (x64)
         runs-on: ubuntu-22.04
-        container: centos:centos7
+        container: rockylinux:8
         steps:
             - name: Clone repository
               uses: actions/checkout@v7
@@ -82,7 +82,8 @@ jobs:
             - name: Setup Dependencies
               run: |
                 mkdir -p artifacts/x64
-                yum -y install gcc make patch
+                dnf -y upgrade
+                dnf install -y gcc make patch
 
             - name: Compile natives
               run: |
