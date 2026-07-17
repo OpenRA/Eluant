@@ -57,6 +57,12 @@ jobs:
                 name: Natives-Windows
                 path: ./native/win
 
+            - name: Download artifacts - native - Windows (arm64)
+              uses: actions/download-artifact@v8
+              with:
+                name: Natives-Windows(arm64)
+                path: ./native/win
+
             - name: Download artifacts - native - MacOS
               uses: actions/download-artifact@v8
               with:

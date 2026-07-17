@@ -27,6 +27,7 @@
     <file src="OpenRA-Eluant.targets" target="build" />
     <file src="bin/netstandard2.0/Eluant.*" target="lib/netstandard2.0" />
     <file src="native/win/x64/lua51.dll" target="native/win-x64" />
+    <file src="native/win/arm64/lua51.dll" target="native/win-arm64" />
     <file src="native/linux/x64/lua51.so" target="native/linux-x64" />
     <file src="native/linux/arm64/lua51.so" target="native/linux-arm64" />
     <file src="native/osx/x86_64/lua51.dylib" target="native/osx-x64" />
