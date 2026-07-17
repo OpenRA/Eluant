@@ -21,23 +21,24 @@ After building Eluant, run the Eluant.Tests test suite to verify that the CLR ca
 
 Using Eluant is straightforward in a lot of respects.  Make sure that you dispose of Lua references, however, as not doing so will lead to sub-optimal GC performance, both in Lua and the CLR.
 
-    using System;
-    using Eluant;
+```csharp
+using System;
+using Eluant;
 
-    class Program
+class Program
+{
+    static void Main()
     {
-        static void Main()
-        {
-            using (var runtime = new LuaRuntime()) {
-                using (var fn = runtime.CreateFunctionFromDelegate(new Func<int, int>(x => x * x))) {
-                    runtime.Globals["square"] = fn;
-                }
+        using (var runtime = new LuaRuntime()) {
+            using (var fn = runtime.CreateFunctionFromDelegate(new Func<int, int>(x => x * x))) {
+                runtime.Globals["square"] = fn;
+            }
 
-                runtime.DoString("print(square(4))").Dispose();
-            }   
-        }
+            runtime.DoString("print(square(4))").Dispose();
+        }   
     }
-
+}
+```
 Output:
 
     16
@@ -101,18 +102,20 @@ Note that any Lua value that inherits from LuaValueType does not need to be disp
 
 Take note of these patterns, as they will cause short-term leaks:
 
-    // Leaks if the Lua 'bar' global is of a reference type.
-    runtime.Globals["foo"] = runtime.Globals["bar"];
+```csharp
+// Leaks if the Lua 'bar' global is of a reference type.
+runtime.Globals["foo"] = runtime.Globals["bar"];
 
-    // Leaks a reference to the Lua function object.
-    runtime.Globals["foo"] = runtime.CreateFunctionFromDelegate(new Action(() => {}));
+// Leaks a reference to the Lua function object.
+runtime.Globals["foo"] = runtime.CreateFunctionFromDelegate(new Action(() => {}));
 
-    // Leaks many ways:
-    //
-    // 1. The LuaFunction reference is not disposed.
-    // 2. If the 'bar' global is of a reference type, its reference is not disposed.
-    // 3. The result list from the call is not disposed, leaking any references it contains.
-    ((LuaFunction) runtime.Globals["foo"]).Call(runtime.Globals["bar"]);
+// Leaks many ways:
+//
+// 1. The LuaFunction reference is not disposed.
+// 2. If the 'bar' global is of a reference type, its reference is not disposed.
+// 3. The result list from the call is not disposed, leaking any references it contains.
+((LuaFunction) runtime.Globals["foo"]).Call(runtime.Globals["bar"]);
+```
 
 The finalizers for Lua reference objects will ensure that the reference is properly released at an unspecified future time.  Eluant cannot release such references immediately upon CLR object finalization, because Lua is not thread-safe.  Finalized references are queued to be released at a later time.  Between the time the reference is leaked and the time that Eluant collects the reference, the Lua object is not eligible for collection.  When the object is explicitly disposed, however, Eluant assumes that the disposal happened on the thread with control of the Lua runtime, and immediately releases the reference to the Lua object.  (One should not dispose of Lua references while another thread is using the runtime.  See the "Thread Safety" section.)
 
@@ -122,12 +125,14 @@ One can call `CopyReference()` on any `LuaValue` object to create a copy of any 
 
 `LuaReference`-derived objects are bound to a particular runtime and may not be used within the context of another runtime.  Doing so will cause an exception.  For example:
 
-    using (var runtime1 = new LuaRuntime())
-    using (var runtime2 = new LuaRuntime()) {
-        using (var table = runtime1.CreateTable()) {
-            runtime2.Globals["foo"] = table;    // InvalidOperationException
-        }
+```csharp
+using (var runtime1 = new LuaRuntime())
+using (var runtime2 = new LuaRuntime()) {
+    using (var table = runtime1.CreateTable()) {
+        runtime2.Globals["foo"] = table;    // InvalidOperationException
     }
+}
+```
 
 Weak CLR References to Lua Objects
 ----------------------------------
@@ -163,14 +168,16 @@ If the delegate takes exactly one parameter of type `LuaVararg` then all argumen
 
 If the delegate has any other signature then Eluant will convert Lua values as necessary.  Note that, per Lua convention, extra arguments to the delegate are ignored, and if too few arguments are provided then Eluant will pretend that `nil` was provided for those that are missing -- which will cause an error *only* if an explicit `nil` otherwise would.  In these examples, `fn` represents a Lua function wrapper around a delegate that takes three parameters:
 
-    // The following two calls are identical from the perspective of the delegate:
-    fn('foo', 'bar', 42)
-    fn('foo', 'bar', 42, 84)    -- The fourth argument is ignored.
+```lua
+-- The following two calls are identical from the perspective of the delegate:
+fn('foo', 'bar', 42)
+fn('foo', 'bar', 42, 84)    -- The fourth argument is ignored.
 
-    // As are all of these:
-    fn('foo', nil, nil)
-    fn('foo', nil)              -- The third argument is implicitly nil.
-    fn('foo')                   -- As is the second argument here.
+-- As are all of these:
+fn('foo', nil, nil)
+fn('foo', nil)              -- The third argument is implicitly nil.
+fn('foo')                   -- As is the second argument here.
+```
 
 The rules for mapping arguments are as follows:
 
