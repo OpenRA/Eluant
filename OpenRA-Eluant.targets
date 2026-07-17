@@ -26,10 +26,5 @@
       <Link>lua51.dylib</Link>
       <Visible>false</Visible>
     </Content>
-    <Content Include="$(MSBuildThisFileDirectory)\..\lib\netstandard2.0\Eluant.dll.config" Condition="'$(TargetPlatform)' != 'win-x64' And '$(TargetPlatform)' != 'win-x86'">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Link>Eluant.dll.config</Link>
-      <Visible>false</Visible>
-    </Content>
   </ItemGroup>
 </Project>
