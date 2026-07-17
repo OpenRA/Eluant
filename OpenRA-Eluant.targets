@@ -6,6 +6,11 @@
       <Link>lua51.dll</Link>
       <Visible>false</Visible>
     </Content>
+    <Content Include="$(MSBuildThisFileDirectory)\..\native\win-arm64\lua51.dll" Condition="'$(TargetPlatform)' == 'win-arm64'">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>lua51.dll</Link>
+      <Visible>false</Visible>
+    </Content>
     <Content Include="$(MSBuildThisFileDirectory)\..\native\linux-x64\lua51.so" Condition="'$(TargetPlatform)' == 'linux-x64'">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>lua51.so</Link>
